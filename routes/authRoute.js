@@ -12,12 +12,12 @@ authRoute.post(`/register`,authController.register_post);
 authRoute.post(`/login`, authController.login_post);
 
 //protect this routes here
-authRoute.get(`/content`,requireAuth, authController.getAll);
-authRoute.get(`/content/:id`,requireAuth, authController.get_id);
+authRoute.get(`/posts`,requireAuth, authController.getAll);
+authRoute.get(`/posts/:id`,requireAuth, authController.get_id);
 // authRoute.post(`/content/:id`,requireAuth, authController.send_id);
-authRoute.post(`/content`,requireAuth, authController.Content_post);
-authRoute.put(`/content/:id`,requireAuth, authController.update_put_id);
-authRoute.delete(`/content/:id`,requireAuth,authController.delete_put_id); //make sure not to be able to delete other users post
+authRoute.post(`/posts`,requireAuth, authController.Content_post);
+authRoute.put(`/posts/:id`,requireAuth, authController.update_put_id);
+authRoute.delete(`/posts/:id`,requireAuth,authController.delete_put_id); //make sure not to be able to delete other users post
 authRoute.get(`/logout`, authController.logout_get);
 
 module.exports= authRoute;
