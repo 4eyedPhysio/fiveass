@@ -1,0 +1,47 @@
+<%-include (`./partials/contentViewsHeader`); %>
+
+<form action="/content" method="POST">
+    <label for="id">Post id</label>
+<input type="text" placeholder="insert post id" name="id" required>
+<button type="submit">search</button>
+
+
+<div id="postContent"></div>
+
+
+
+<script>
+    const form = document.querySelector(`form`);
+
+    const postContent = document.getElementById(`postContent`);
+
+
+    form.addEventListener(`submit`, async(e)=>{
+        e.preventDefault();
+
+        const id = form.id.value;
+
+
+       try {
+        const res = await fetch(`/content`, {
+            method: `POST`,
+            body: JSON.stringify({id}),
+            headers:{"content-type": "application/json"}
+        });
+          const data = await res.json();
+          if(!data.post_id){
+             console.log("error retrieving data from database");
+          }
+        //   location.assign(`/content`)
+        postContent.innerHTML = `<h2>Post Content </h2><p>${data.post_id.content}</p>`;
+       } catch (err) {
+        console.log(err);
+       }
+
+
+    })
+</script>
+
+
+</form>
+<%-include (`./partials/footer`);  %>

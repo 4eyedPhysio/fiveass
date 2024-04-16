@@ -1,0 +1,15 @@
+<%-include (`./partials/contentViewsHeader`);-%>
+
+<h2>this is our contents route </h2>
+
+<ul>
+    <%posts.forEach((post)=>{%>
+      <li>
+       <h2>Title</h2>: <%=post.title%> <h3>body</h3> : <%=post.body%>
+      </li>
+   <% });%>
+</ul>
+
+
+<%-include (`./partials/footer`); -%>
+<!-- we want to have a scenario where for each post of the user, we return only the title and the body -->

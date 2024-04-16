@@ -1,0 +1,79 @@
+<%- include(`partials/header`); -%>
+
+
+<form action="/signup" method="POST">
+    <h2>Sign up</h2>
+    <label for="name">Name</label>
+    <input type="text" name="name" required>
+    <label for="email">Email</label>
+    <input type="text" name="email" required>
+    <div class="email error"></div>
+    <label for="password">password</label>
+    <input type="password" name="password" required>
+    <div class="password error"></div>
+    <label for="role">role</label>
+    <select name="role" id="role" required>
+        <option value="user">User</option>
+        <option value="admin">admin</option>
+    </select>
+    <button type="submit">Sign Up</button>
+</form>
+
+<script>
+    const form = document.querySelector(`form`);
+
+    //small frontend error handling signup
+const emailError = document.querySelector(`.email.error`)
+const passwordError = document.querySelector(`.password.error`)
+
+//we add event listener to the submit because it is the default function of button to submit and refresh
+    form.addEventListener(`submit`, async (e)=>{
+        //now we dont want the page to refresh so we will not lose all our data
+        e.preventDefault();
+
+        //this line is to reset the error message that shows under the input in the frontend
+        emailError.textContent = "";
+                passwordError.textContent = "";
+
+        //next is to get the values passed into the input
+        
+
+        const name = form.name.value; //grabs the name value
+
+        const email = form.email.value; // since we want to grab the value of the email, not the email field
+
+        const password = form.password.value;
+
+        const role = form.role.value;  //this is the role form we just added
+
+        // remember from the frontend here, we convert the signup route to send a post method to the database and we cant just return the body as a json like that, so we stringify it..remember that is whole process is an asynchronous function
+
+        try {
+
+            //all the function is then stored in res
+            const res = await fetch(`/register`, {
+                method:`POST`,
+                body: JSON.stringify({ name, email,password, role}),
+                headers:{"Content-Type":"application/json"}
+            });
+            const data = await res.json();
+            console.log(data);
+            
+            
+            if(data.errors){
+                emailError.textContent = data.errors.email;
+                passwordError.textContent = data.errors.password;
+            }if(data.user){
+                location.assign(`/login`);
+                //the code above redirect from the front end to take us back to the homepage
+            }
+
+        }catch (err) {
+            console.log(err);
+        }
+    })
+</script>
+
+
+<%- include (`./partials/footer`) -%>
+
